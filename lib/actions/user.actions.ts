@@ -9,7 +9,7 @@ import { handleError } from '@/lib/utils';
 
 import { CreateUserParams, UpdateUserParams } from '@/types';
 import Order from '../database/models/order.model';
-import Event from '../database/models/even.model';
+import Event from '../database/models/event.model';
 
 export async function createUser(user: CreateUserParams) {
   try {
