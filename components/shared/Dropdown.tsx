@@ -1,4 +1,4 @@
-import { startTransition, useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import {
   Select,
   SelectContent,
@@ -32,26 +32,35 @@ type DropdownProps = {
 const Dropdown = ({ onChangeHandler, value }: DropdownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState('');
+  const [isPending, startTransition] = useTransition();
 
   const handleAddCategory = () => {
-    createCategory({ categoryName: newCategory.trim() })
-      .then(category => {
-        setCategories(prevState => [...prevState, category]);
-      })
-      .catch(err => console.log('Error', err));
+    startTransition(() => {
+      createCategory({ categoryName: newCategory.trim() })
+        .then(category => {
+          setCategories(prevState => [...prevState, category]);
+        })
+        .catch(err => console.log('Error', err));
+    });
   };
 
   useEffect(() => {
     const getCategories = async () => {
       const categoryList = await getAllCategories();
+
       categoryList && setCategories(categoryList as ICategory[]);
     };
-
-    getCategories();
+    startTransition(async () => {
+      await getCategories();
+    });
   }, []);
 
   return (
-    <Select onValueChange={onChangeHandler} defaultValue={value}>
+    <Select
+      disabled={isPending}
+      onValueChange={onChangeHandler}
+      defaultValue={value}
+    >
       <SelectTrigger className="select-field">
         <SelectValue placeholder="Category" />
       </SelectTrigger>
@@ -85,10 +94,11 @@ const Dropdown = ({ onChangeHandler, value }: DropdownProps) => {
                 </Button>
               </DialogClose>
               <Button
+                disabled={isPending}
                 type="submit"
                 onClick={() => startTransition(handleAddCategory)}
               >
-                Add
+                {isPending ? 'Adding...' : 'Add'}
               </Button>
             </DialogFooter>
           </DialogContent>
