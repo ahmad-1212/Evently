@@ -33,7 +33,7 @@ const Dropdown = ({ onChangeHandler, value }: DropdownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState('');
   const [isPending, startTransition] = useTransition();
-
+  console.log(isPending);
   const handleAddCategory = () => {
     startTransition(() => {
       createCategory({ categoryName: newCategory.trim() })
@@ -50,17 +50,11 @@ const Dropdown = ({ onChangeHandler, value }: DropdownProps) => {
 
       categoryList && setCategories(categoryList as ICategory[]);
     };
-    startTransition(async () => {
-      await getCategories();
-    });
+    getCategories();
   }, []);
 
   return (
-    <Select
-      disabled={isPending}
-      onValueChange={onChangeHandler}
-      defaultValue={value}
-    >
+    <Select onValueChange={onChangeHandler} defaultValue={value}>
       <SelectTrigger className="select-field">
         <SelectValue placeholder="Category" />
       </SelectTrigger>
