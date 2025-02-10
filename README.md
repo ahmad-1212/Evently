@@ -12,6 +12,12 @@
   </div>
 
   <h3 align="center">A Full Stack Next 14 Events App</h3>
+
+  <h3 >
+    <a href="https://evently-two-steel.vercel.app/sign-up" target="_blank">
+      LIVE SITE
+    </a>
+  </h3>
 </div>
 
 ## 📋 <a name="table">Table of Contents</a>
@@ -77,8 +83,8 @@ Make sure you have the following installed on your machine:
 **Cloning the Repository**
 
 ```bash
-git clone https://github.com/your-username/your-project.git
-cd your-project
+git clone https://github.com/ahmad-1212/Evently.git
+cd Evently
 ```
 
 **Installation**
